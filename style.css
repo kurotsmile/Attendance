@@ -1,0 +1,79 @@
+body{
+    margin: 0px;
+    padding: 0px;
+    font-family:"arial";
+    font-size: 13px;
+}
+.box{
+    width: 50px;
+    float: left;
+    background-color: rgb(246, 237, 255);
+    margin: 2px;
+    border-radius: 3px;
+    padding: 5px;
+    text-align: center;
+    cursor: pointer;
+    border: solid 2px white;
+}
+
+.box .name{
+    width: 100%;
+    float: left;
+    font-weight: bold;
+}
+
+.box .timer{
+    font-size: 9px;
+    width: 100%;
+    float: left;
+}
+.box:hover{
+    background-color: rgb(202, 255, 237);
+}
+.box.sel.check{
+    background-color: rgb(202, 30, 30);
+    color: aliceblue;
+}
+
+.box.sel.success{
+    background-color: rgb(124, 199, 12);
+    color: yellow;
+}
+
+.box.sel.info{
+    background-color: rgb(12, 87, 199);
+    color: yellow;
+}
+
+.box.sel.memory{
+    background-color: rgb(143, 5, 148);
+    color: rgb(255, 0, 200);
+}
+
+.box.sel.alert{
+    background-color:orangered;
+    color: yellow;
+}
+
+.box.sel.info{
+    background-color: rgb(12, 87, 199);
+    color: yellow;
+}
+
+.box.sel:hover{
+    background-color: black;
+    color: aliceblue;
+}
+
+.box.call{
+    border: solid 2px black;
+    box-shadow: 3px 3px 3px #c3c3c3;
+}
+
+.item_pin.sel{
+    background-color: rgb(197, 248, 156) !important;
+}
+
+#info{
+    text-decoration: none;
+}
