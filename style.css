@@ -81,3 +81,22 @@ body{
 #btn_add_pi_auto{
     background-image: url('add.png');
 }
+
+.blink{
+    animation: blink-invert-animation 1s infinite;
+  }
+
+  @keyframes blink-invert-animation {
+    0% {
+      background-color: #ffc107; /* Màu nền ban đầu (vàng) */
+      color: #000; /* Màu chữ ban đầu (đen) */
+    }
+    50% {
+      background-color: #000; /* Màu nền phản (đen) */
+      color: #ffc107; /* Màu chữ phản (vàng) */
+    }
+    100% {
+      background-color: #ffc107; /* Màu nền ban đầu (vàng) */
+      color: #000; /* Màu chữ ban đầu (đen) */
+    }
+  }

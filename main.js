@@ -39,11 +39,7 @@ function load_pi(){
             s_class="sel "+list_pin_id[index_p];
         }
 
-        html_pi+="<div class='box "+s_class+"' index='"+pi+"'><span class='name'>"+pi+"</span> <span id='timer_"+pi+"' class='timer'>None ☢</span></div>";
-        const endTime = localStorage.getItem(id_table+"_pi_"+pi+"_timer");
-        if (endTime){
-            startCountdown(pi,new Date(parseInt(endTime)));
-        }
+        html_pi+="<div id='box_"+pi+"' class='box "+s_class+"' index='"+pi+"'><span class='name'>"+pi+"</span> <span id='timer_"+pi+"' class='timer'>None ☢</span></div>";
     }
     html_pi+='</div>';
 
@@ -51,27 +47,55 @@ function load_pi(){
 
     $("#pi").html(html_pi);
 
+    for(var pi=1;pi<=length_pi;pi++){
+        const endTime = localStorage.getItem(id_table+"_pi_"+pi+"_timer");
+        if (endTime){
+            startCountdown(pi,new Date(parseInt(endTime)));
+        }
+    }
+
     $(".box").click(function(){
         var index=$(this).attr("index");
-        $("#menu_info").show(200);
-        if(index_cur_pin==0){
-            $(this).removeClass("sel");
-            localStorage.removeItem(id_table+"_pi_"+index);
-        }else{
-            if ($(this).hasClass("sel")){
-                $(this).removeClass("sel");
-                localStorage.removeItem(id_table+"_pi_"+index);
-            } else {
-                $(this).addClass("sel "+list_pin_id[index_cur_pin]);
-                localStorage.setItem(id_table+"_pi_"+index,index_cur_pin);
-            }
-            startCountdown(index);
-        }
-       
-        index_cur=index;
-        load_info();
+        click_box_obj(index);
     });
 
+    load_info();
+}
+
+function click_box_obj(index){
+    if(index_cur_pin==0){
+        $("#box_"+index).removeClass("sel");
+        localStorage.removeItem(id_table+"_pi_"+index);
+    }else{
+        if ($("#box_"+index).hasClass("sel")){
+            $("#box_"+index).removeClass("sel");
+            localStorage.removeItem(id_table+"_pi_"+index);
+        } else {
+            $("#box_"+index).addClass("sel "+list_pin_id[index_cur_pin]);
+            localStorage.setItem(id_table+"_pi_"+index,index_cur_pin);
+        }
+        
+        if (!$("#box_"+index).hasClass("blink")){
+            startCountdown(index);
+        }else{
+            $("#box_"+index).removeClass("blink");
+            startCountdown(index);
+        }
+    }
+    index_cur=index;
+    show_info(index);
+    load_info();
+}
+
+function del_pin_box(index){
+    $("#box_"+index).removeClass("sel");
+    localStorage.removeItem(id_table+"_pi_"+index);
+    load_info();
+}
+
+function set_pin_box(index){
+    $("#box_"+index).addClass("sel "+list_pin_id[index_cur_pin]);
+    localStorage.setItem(id_table+"_pi_"+index,index_cur_pin);
     load_info();
 }
 
@@ -257,6 +281,7 @@ function startCountdown(index, existingEndTime = null) {
     if (distance < 0) {
         clearInterval(interval);
         $(countdownDiv).html("✅Exploit");
+        $("#box_"+index).addClass("blink");
     }else{
         $(countdownDiv).html(`${hours}:${minutes}:${seconds}`);
     }
@@ -294,3 +319,39 @@ function show_setting(){
     });
 }
 
+function edit_app(){
+    Swal.fire({
+        title:"Enter the app's package id for ("+index_cur+")",
+        input:"text",
+        showCancelButton: true,
+        preConfirm: async (app_id) => {
+           localStorage.setItem("app_id_"+index_cur,app_id);
+           Swal.fire({
+                title: "Save setting!",
+                text: "Update installed successfully app id("+app_id+")!",
+                icon: "success"
+            });
+            show_info(index_cur);
+        }
+    })
+}
+
+function show_info(index){
+    var html_info='';
+    html_info+='<li class="nav-item">';
+    html_info+='<button class="btn btn-sm  btn-dark" onclick="edit_app();">🥽 '+index_cur+'</button>';
+    if(localStorage.getItem("app_id_"+index)!=null) html_info+='<button class="btn btn-sm  btn-dark" onclick="open_app_by_index_cur();">🚀 Open App</button>';
+    html_info+='<button class="btn btn-sm  btn-dark" onclick="set_pin_box('+index+');">'+list_pin[index_cur_pin]+' Set Pin</button>';
+    html_info+='<button class="btn btn-sm  btn-dark" onclick="del_pin_box('+index+');">'+list_pin[0]+' Delete Pin</button>';
+    html_info+='<button class="btn btn-sm  btn-dark" onclick="edit_app();">👔 Edit App</button>';
+    html_info+='<button class="btn btn-sm  btn-dark" onclick="delete_cur_time()">❌ Delete Curent Timer</button>';
+    html_info+='<button class="btn btn-sm  btn-dark" onclick="$(\'#menu_info\').hide(200);">🎱 Close</button>';
+    html_info+='</li>';
+    $("#menu_info").show(200);
+    $("#menu_info").html(html_info);
+}
+
+function open_app_by_index_cur(){
+    var link_app=localStorage.getItem("app_id_"+index_cur);
+    window.open("intent://#Intent;package="+link_app+";end");
+}
