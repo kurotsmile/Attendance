@@ -77,3 +77,7 @@ body{
 #info{
     text-decoration: none;
 }
+
+#btn_add_pi_auto{
+    background-image: url('add.png');
+}

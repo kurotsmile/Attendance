@@ -10,6 +10,7 @@ var length_pi=500;
 var position_btn_add='right';
 
 $(document).ready(function(){
+    if(localStorage.getItem("pos_btn_add")!=null) position_btn_add=localStorage.getItem("pos_btn_add");
     load_list();
     load_pi();
 });
@@ -23,6 +24,13 @@ function load_pi(){
 
     $("#list_total").val(length_pi);
 
+    var html_pi='';
+    var css_col_boy='col-11 col-md-11';
+
+    if(position_btn_add=='none') css_col_boy='col-12 col-md-12';
+    if(position_btn_add=='left') html_pi+='<div id="btn_add_pi_auto" class="col-1 col-md-1 col-xs-12 col-sm-12 text-center" onclick="add_pi()" oncontextmenu="add_pi_pin();return false;" style="cursor: pointer;text-align: center;background-color: rgb(197, 248, 156);" ></div>';
+
+    html_pi+='<div class="'+css_col_boy+' col-xs-12 col-sm-12">';
     for(var pi=1;pi<=length_pi;pi++){
         var s_class="";
         if(localStorage.getItem(id_table+"_pi_"+pi)!=null){
@@ -30,12 +38,17 @@ function load_pi(){
             s_class="sel "+list_pin_id[index_p];
         }
 
-        $("#pi").append("<div class='box "+s_class+"' index='"+pi+"'><span class='name'>"+pi+"</span> <span id='timer_"+pi+"' class='timer'>None ☢</span></div>");
+        html_pi+="<div class='box "+s_class+"' index='"+pi+"'><span class='name'>"+pi+"</span> <span id='timer_"+pi+"' class='timer'>None ☢</span></div>";
         const endTime = localStorage.getItem(id_table+"_pi_"+pi+"_timer");
         if (endTime){
             startCountdown(pi,new Date(parseInt(endTime)));
         }
     }
+    html_pi+='</div>';
+
+    if(position_btn_add=='right') html_pi+='<div id="btn_add_pi_auto" class="col-1 col-md-1 col-xs-12 col-sm-12 text-center" onclick="add_pi()" oncontextmenu="add_pi_pin();return false;" style="cursor: pointer;text-align: center;background-color: rgb(197, 248, 156);" ></div>';
+
+    $("#pi").html(html_pi);
 
     $(".box").click(function(){
         var index=$(this).attr("index");
@@ -258,18 +271,23 @@ function show_setting(){
             html+='<select id="pos_btn_add" class="form-control">';
                 html+='<option value="right">Right</option>';
                 html+='<option value="left">Left</option>';
-                html+='<option vlaue="none">None</option>';
+                html+='<option value="none">None</option>';
             html+='</select>';
         html+='</div>';
     html+='</div>';
     Swal.fire({html:html,showCancelButton: true}).then((result) => {
         if (result.isConfirmed) {
-            alert($("#pos_btn_add").val());
+            position_btn_add=$("#pos_btn_add").val();
+            localStorage.setItem('pos_btn_add',position_btn_add);
+            
             Swal.fire({
                 title: "Save setting!",
                 text: "Update installed successfully!",
                 icon: "success"
             });
+
+            load_list();
+            load_pi();
         }
     });
 }
