@@ -10,6 +10,7 @@ var length_pi=500;
 var position_btn_add='right';
 
 $(document).ready(function(){
+    $("#menu_info").hide();
     if(localStorage.getItem("pos_btn_add")!=null) position_btn_add=localStorage.getItem("pos_btn_add");
     load_list();
     load_pi();
@@ -52,6 +53,7 @@ function load_pi(){
 
     $(".box").click(function(){
         var index=$(this).attr("index");
+        $("#menu_info").show(200);
         if(index_cur_pin==0){
             $(this).removeClass("sel");
             localStorage.removeItem(id_table+"_pi_"+index);
