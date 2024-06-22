@@ -354,3 +354,8 @@ function show_info(index){
     $("#menu_info").show(200);
     $("#menu_info").html(html_info);
 }
+
+function open_app_by_index_cur(){
+    var intentUrl = "intent://#Intent;package="+localStorage.getItem("app_id_"+index_cur)+";class=com.pinetwork.MainActivity;action=android.intent.action.Main;end";
+    alert(intentUrl);
+}
