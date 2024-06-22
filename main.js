@@ -341,7 +341,7 @@ function show_info(index){
     html_info+='<li class="nav-item">';
     html_info+='<button class="btn btn-sm  btn-dark" onclick="edit_app();">🥽 '+index_cur+'</button>';
     if(localStorage.getItem("app_id_"+index)!=null){
-        var intentUrl = "intent://#Intent;package="+localStorage.getItem("app_id_"+index)+";action=android.intent.action.Main;end";
+        var intentUrl = "intent://#Intent;package="+localStorage.getItem("app_id_"+index)+";class=com.pinetwork.MainActivity;action=android.intent.action.Main;end";
         html_info+='<button class="btn btn-sm  btn-dark" onclick="open_app_by_index_cur();">🚀 Open App</button>';
         html_info+='<a href="'+intentUrl+'">🚀 Open App2</a>';
     }
