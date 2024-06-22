@@ -118,7 +118,7 @@ function load_info(){
             count_ready++;
         }
     }
-    $("#info").html("Curent:"+index_cur+",Total:"+count_ready+",Mission:"+(length_pi-count_ready)+",Pin:"+count_pin);
+    $("#info").html("🎯:"+index_cur+" 💎:"+count_ready+" 👒:"+(length_pi-count_ready)+" 📌:"+count_pin);
 }
 
 function add_list(){
@@ -140,7 +140,7 @@ function load_list(){
 
     $("#list_table").empty();
     $(list_table).each(function(index,l){
-        $("#list_table").append(new Option(l,l));
+        $("#list_table").append(new Option("📟 "+l,l));
     });
 
     $("#list_table").change(function(){
@@ -150,7 +150,7 @@ function load_list(){
 
     $("#list_total").empty();
     $(list_total).each(function(index,c){
-        $("#list_total").append(new Option(c,c));
+        $("#list_total").append(new Option("🏀 "+c,c));
     });
 
     $("#list_total").change(function(){
@@ -269,9 +269,9 @@ function show_setting(){
         html+='<div class="col-8">Button to mark the list of objects</div>';
         html+='<div class="col-4">';
             html+='<select id="pos_btn_add" class="form-control">';
-                html+='<option value="right">Right</option>';
-                html+='<option value="left">Left</option>';
-                html+='<option value="none">None</option>';
+                html+='<option value="right" '+(position_btn_add==='right' ? ' selected' : '') +'>Right</option>';
+                html+='<option value="left" '+(position_btn_add==='left' ? ' selected' : '') +'>Left</option>';
+                html+='<option value="none" '+(position_btn_add==='none' ? ' selected' : '') +'>None</option>';
             html+='</select>';
         html+='</div>';
     html+='</div>';

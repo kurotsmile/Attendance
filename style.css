@@ -75,7 +75,7 @@ body{
 }
 
 #info{
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 #btn_add_pi_auto{
