@@ -340,7 +340,11 @@ function show_info(index){
     var html_info='';
     html_info+='<li class="nav-item">';
     html_info+='<button class="btn btn-sm  btn-dark" onclick="edit_app();">🥽 '+index_cur+'</button>';
-    if(localStorage.getItem("app_id_"+index)!=null) html_info+='<button class="btn btn-sm  btn-dark" onclick="open_app_by_index_cur();">🚀 Open App</button>';
+    if(localStorage.getItem("app_id_"+index)!=null){
+        var intentUrl = "intent://#Intent;package="+localStorage.getItem("app_id_"+index)+";action=android.intent.action.Main;end";
+        html_info+='<button class="btn btn-sm  btn-dark" onclick="open_app_by_index_cur();">🚀 Open App</button>';
+        html_info+='<a href="'+intentUrl+'">🚀 Open App2</a>';
+    }
     html_info+='<button class="btn btn-sm  btn-dark" onclick="set_pin_box('+index+');">'+list_pin[index_cur_pin]+' Set Pin</button>';
     html_info+='<button class="btn btn-sm  btn-dark" onclick="del_pin_box('+index+');">'+list_pin[0]+' Delete Pin</button>';
     html_info+='<button class="btn btn-sm  btn-dark" onclick="edit_app();">👔 Edit App</button>';
@@ -349,23 +353,4 @@ function show_info(index){
     html_info+='</li>';
     $("#menu_info").show(200);
     $("#menu_info").html(html_info);
-}
-
-function open_app_by_index_cur(){
-    var link_app=localStorage.getItem("app_id_"+index_cur);
-    openApp(link_app);
-}
-
-function openApp(packageName) {
-    var fallbackUrl = "https://play.google.com/store/apps/details?id=" + packageName;
-    var intentUrl = "intent://#Intent;package=" + packageName + ";action=android.intent.action.Main;end";
-    
-    var iframe = document.createElement("iframe");
-    iframe.style.display = "none";
-    iframe.src = intentUrl;
-    document.body.appendChild(iframe);
-
-    setTimeout(function() {
-        window.location.href = fallbackUrl;
-    }, 2000);
 }
