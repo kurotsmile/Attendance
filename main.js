@@ -358,7 +358,7 @@ function open_app_by_index_cur(){
 
 function openApp(packageName) {
     var fallbackUrl = "https://play.google.com/store/apps/details?id=" + packageName;
-    var intentUrl = "intent://#Intent;package=" + packageName + ";end";
+    var intentUrl = "intent://#Intent;package=" + packageName + ";action=android.intent.action.Main;end";
     
     var iframe = document.createElement("iframe");
     iframe.style.display = "none";
