@@ -353,5 +353,19 @@ function show_info(index){
 
 function open_app_by_index_cur(){
     var link_app=localStorage.getItem("app_id_"+index_cur);
-    window.open("intent://#Intent;package="+link_app+";end");
+    openApp(link_app);
+}
+
+function openApp(packageName) {
+    var fallbackUrl = "https://play.google.com/store/apps/details?id=" + packageName;
+    var intentUrl = "intent://#Intent;package=" + packageName + ";end";
+    
+    var iframe = document.createElement("iframe");
+    iframe.style.display = "none";
+    iframe.src = intentUrl;
+    document.body.appendChild(iframe);
+
+    setTimeout(function() {
+        window.location.href = fallbackUrl;
+    }, 2000);
 }
