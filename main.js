@@ -3,7 +3,7 @@ var list_pin=["🤍","🔴","🧡","💙","💜","💚"];
 var list_pin_id=["none","check","alert","info","memory","success"];
 var list_total=[200,350,400,450,500];
 
-var id_table="Work";
+var id_table="pi_work";
 var index_cur=0;
 var index_cur_pin=1;
 var length_pi=500;
