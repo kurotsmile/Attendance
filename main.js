@@ -379,7 +379,7 @@ function edit_app(){
 function show_info(index){
     var html_info='';
     html_info+='<li class="nav-item">';
-    html_info+='<button class="btn btn-sm  btn-dark" onclick="edit_app();">🥽 '+index_cur+'</button>';
+    html_info+='<button class="btn btn-sm  btn-dark" onclick="show_detai_cur();">🥽 '+index_cur+'</button>';
     if(localStorage.getItem("app_id_"+index)!=null){
         var intentUrl = "intent://open#Intent;scheme=blockchainvaulu;package=com.blockchainvaulu;end";
         html_info+='<button class="btn btn-sm  btn-dark" onclick="open_app_by_index_cur();">🚀 Open App</button>';
@@ -398,4 +398,10 @@ function show_info(index){
 function open_app_by_index_cur(){
     var intentUrl = "intent://open#Intent;scheme=blockchainvaulu;package=com.blockchainvaulu;end";
     alert(intentUrl);
+}
+
+function show_detai_cur(){
+    var html='';
+    html+=index_cur;
+    Swal.fire({title:"🐟 "+index_cur,html:html});
 }
