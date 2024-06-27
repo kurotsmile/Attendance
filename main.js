@@ -357,7 +357,7 @@ function show_setting(){
 
 function edit_app(){
     var s_val='';
-    if(localStorage.getItem("app_id_"+index_cur)!=null) s_val=localStorage.getItem("app_id_"+index_cur);
+    if(localStorage.getItem(id_table+"_app_id_"+index_cur)!=null) s_val=localStorage.getItem(id_table+"_app_id_"+index_cur);
 
     Swal.fire({
         title:"Enter the app's package id for ("+index_cur+")",
@@ -365,7 +365,7 @@ function edit_app(){
         input: "text",
         showCancelButton: true,
         preConfirm: async (app_id) => {
-           localStorage.setItem("app_id_"+index_cur,app_id);
+           localStorage.setItem(id_table+"_app_id_"+index_cur,app_id);
            Swal.fire({
                 title: "Save setting!",
                 text: "Update installed successfully app id("+app_id+")!",
@@ -380,8 +380,8 @@ function show_info(index){
     var html_info='';
     html_info+='<li class="nav-item">';
     html_info+='<button class="btn btn-sm  btn-dark" onclick="show_detai_cur();">🥽 '+index_cur+'</button>';
-    if(localStorage.getItem("app_id_"+index)!=null){
-        var intentUrl = "intent://open#Intent;scheme=blockchainvaulu;package=com.blockchainvaulu;end";
+    if(localStorage.getItem(id_table+"_app_id_"+index)!=null){
+        var intentUrl = "intent://open#Intent;scheme="+localStorage.getItem(id_table+"_app_id_"+index)+";package="+localStorage.getItem(id_table+"_app_id_"+index)+";end";
         html_info+='<button class="btn btn-sm  btn-dark" onclick="open_app_by_index_cur();">🚀 Open App</button>';
         html_info+='<a href="'+intentUrl+'">🚀 Open App2</a>';
     }
