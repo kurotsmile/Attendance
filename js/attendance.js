@@ -11,12 +11,20 @@ class Attendance {
     position_btn_add = 'right';
     setting_show_timer = 'show';
 
+    menu_cur='';
+
     onLoad(){
         $("#menu_info").hide();
         if (localStorage.getItem("pos_btn_add") != null) this.position_btn_add = localStorage.getItem("pos_btn_add");
         if (localStorage.getItem("setting_show_timer") != null) this.setting_show_timer = localStorage.getItem("setting_show_timer");
         a.load_list();
         a.load_pi();
+    }
+
+    act_menu(id){
+        $(".m-menu").removeClass("active");
+        $("#"+id).addClass("active");
+        this.menu_cur=id;
     }
 
     load_pi() {
@@ -297,62 +305,56 @@ class Attendance {
     }
 
     show_setting() {
-        var html = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16"><path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/></svg><br/><h3>Setting</h3>';
-        html += '<div class="row text-left">';
-        html += '<div class="col-8 text-left">';
-        html += '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar2-plus-fill" viewBox="0 0 16 16"><path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M2 3.5v1c0 .276.244.5.545.5h10.91c.3 0 .545-.224.545-.5v-1c0-.276-.244-.5-.546-.5H2.545c-.3 0-.545.224-.545.5m6.5 5a.5.5 0 0 0-1 0V10H6a.5.5 0 0 0 0 1h1.5v1.5a.5.5 0 0 0 1 0V11H10a.5.5 0 0 0 0-1H8.5z"/></svg> ';
-        html += 'Button to mark the list of objects';
-        html += '</div>';
-        html += '<div class="col-4">';
-        html += '<select id="pos_btn_add" class="form-control">';
-        html += '<option value="right" ' + (this.position_btn_add === 'right' ? ' selected' : '') + '>Right</option>';
-        html += '<option value="left" ' + (this.position_btn_add === 'left' ? ' selected' : '') + '>Left</option>';
-        html += '<option value="none" ' + (this.position_btn_add === 'none' ? ' selected' : '') + '>None</option>';
-        html += '</select>';
-        html += '</div>';
-        html += '</div>';
+        var html = '';
 
-        html += '<div class="row">';
-        html += '<div class="col-8 text-left">';
-        html += '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814z"/></svg> Show Timer';
-        html += '</div>';
-        html += '<div class="col-4">';
-        html += '<select id="setting_show_timer" class="form-control">';
-        html += '<option value="show" ' + (this.setting_show_timer === 'show' ? ' selected' : '') + '>Show</option>';
-        html += '<option value="hide" ' + (this.setting_show_timer === 'hide' ? ' selected' : '') + '>Hide</option>';
-        html += '</select>';
-        html += '</div>';
-        html += '</div>';
+        html+='<div class="form-group">';
+            html+='<label for="setting_show_timer"><i class="fas fa-calendar-plus"></i> Button to mark the list of objects</label>';
+            html += '<select id="pos_btn_add" class="form-control">';
+            html += '<option value="right" ' + (this.position_btn_add === 'right' ? ' selected' : '') + '>Right</option>';
+            html += '<option value="left" ' + (this.position_btn_add === 'left' ? ' selected' : '') + '>Left</option>';
+            html += '<option value="none" ' + (this.position_btn_add === 'none' ? ' selected' : '') + '>None</option>';
+            html += '</select>';
+            html+='<small class="form-text text-muted">Turn countdown timer on or off</small>';
+        html+='</div>';
+    
+        html+='<div class="form-group">';
+            html+='<label for="setting_show_timer"><i class="fas fa-stopwatch"></i> Show Timer</label>';
+            html += '<select id="setting_show_timer" class="form-control">';
+            html += '<option value="show" ' + (this.setting_show_timer === 'show' ? ' selected' : '') + '>Show</option>';
+            html += '<option value="hide" ' + (this.setting_show_timer === 'hide' ? ' selected' : '') + '>Hide</option>';
+            html += '</select>';
+            html+='<small class="form-text text-muted">Turn countdown timer on or off</small>';
+        html+='</div>';
 
-        html += '<div class="row">';
-        html += '<div class="col-8 text-left">';
-        html += '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid-3x3-gap-fill" viewBox="0 0 16 16"><path d="M1 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zM1 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zM1 12a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1z"/></svg> Length';
-        html += '</div>';
-        html += '<div class="col-4">';
-        html += '<input class="form-control" id="length_pi" value="' + this.length_pi + '"/>';
-        html += '</div>';
-        html += '</div>';
+        html+='<div class="form-group">';
+            html+='<label for="length_pi"><i class="fas fa-table"></i> Number of elements</label>';
+            html+='<input class="form-control" id="length_pi" value="' + this.length_pi + '"/>';
+            html+='<small class="form-text text-muted">Enter the number of elements you want to contain in the table</small>';
+        html+='</div>';
 
-        Swal.fire({ html: html, showCancelButton: true }).then((result) => {
-            if (result.isConfirmed) {
-                a.position_btn_add = $("#pos_btn_add").val();
-                a.setting_show_timer = $("#setting_show_timer").val();
-                a.length_pi = parseInt($("#length_pi").val());
+        cr.show_setting((setting)=>{
+            a.position_btn_add = $("#pos_btn_add").val();
+            a.setting_show_timer = $("#setting_show_timer").val();
+            a.length_pi = parseInt($("#length_pi").val());
 
-                localStorage.setItem('pos_btn_add', a.position_btn_add);
-                localStorage.setItem("setting_show_timer", a.setting_show_timer);
-                localStorage.setItem(a.id_table + "_lenth_app", a.length_pi);
+            localStorage.setItem('pos_btn_add', a.position_btn_add);
+            localStorage.setItem("setting_show_timer", a.setting_show_timer);
+            localStorage.setItem(a.id_table + "_lenth_app", a.length_pi);
 
-                Swal.fire({
-                    title: "Save setting!",
-                    text: "Update installed successfully!",
-                    icon: "success"
-                });
+            Swal.fire({
+                title: "Save setting!",
+                text: "Update installed successfully!",
+                icon: "success"
+            });
 
-                this.load_list();
-                this.load_pi();
+            if(a.menu_cur=="m-pp") a.show_pp();
+            else if(a.menu_cur=="m-tos") a.show_tos();
+            else{
+                a.load_list();
+                a.load_pi();
             }
-        });
+
+        },html)
     }
 
     edit_app() {
@@ -407,11 +409,13 @@ class Attendance {
     }
 
     show_pp(){
+        this.act_menu("m-pp");
         cr.top();
         cr.show_pp("#pi");
     }
 
     show_tos(){
+        this.act_menu("m-tos");
         cr.top();
         cr.show_tos("#pi");
     }
@@ -423,4 +427,7 @@ $(document).ready(function () {
     a = new Attendance();
     a.onLoad();
     cr.onLoad();
+    cr.setSiteName("Attendance");
+    cr.setSiteUrl("https://attendance-orpin-five.vercel.app");
+    cr.setColor("#715cf1");
 });
