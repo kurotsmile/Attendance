@@ -405,6 +405,16 @@ class Attendance {
         html += this.index_cur;
         Swal.fire({ title: "🐟 " + a.index_cur, html: html });
     }
+
+    show_pp(){
+        cr.top();
+        cr.show_pp("#pi");
+    }
+
+    show_tos(){
+        cr.top();
+        cr.show_tos("#pi");
+    }
 }
 
 var a;
