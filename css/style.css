@@ -79,7 +79,7 @@ body{
 }
 
 #btn_add_pi_auto{
-    background-image: url('add.png');
+    background-image: url('../images/add.png');
 }
 
 .blink{
