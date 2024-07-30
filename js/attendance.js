@@ -162,16 +162,12 @@ class Attendance {
     }
 
     add_list() {
-        var name_new = prompt("Name new table");
-        if (name_new.trim() == "") {
-            alert("Name table not nu!!");
-            return false;
-        }
-
-        this.list_table.push(name_new);
-        localStorage.setItem("list_table", JSON.stringify(this.list_table));
-        alert("Add table success!!!");
-        this.load_list();
+        cr.input("Add table","Name new table",(val)=>{
+            a.list_table.push(val);
+            localStorage.setItem("list_table", JSON.stringify(this.list_table));
+            cr.msg("Add table success!!!","New Table","success");
+            a.load_list();
+        });
     }
 
     load_list() {
@@ -389,6 +385,7 @@ class Attendance {
         }
         html_info += '<button class="btn btn-sm  btn-dark" onclick="a.set_pin_box(' + index + ');">' + this.list_pin[this.index_cur_pin] + ' Set Pin</button>';
         html_info += '<button class="btn btn-sm  btn-dark" onclick="a.del_pin_box(' + index + ');">' + this.list_pin[0] + ' Delete Pin</button>';
+        html_info += '<button class="btn btn-sm  btn-dark" onclick="a.edit_app();"><i class="fas fa-link"></i> Edit Link</button>';
         html_info += '<button class="btn btn-sm  btn-dark" onclick="a.edit_app();">👔 Edit App</button>';
         html_info += '<button class="btn btn-sm  btn-dark" onclick="a.delete_cur_time()">❌ Delete Curent Timer</button>';
         html_info += '<button class="btn btn-sm  btn-dark" onclick="$(\'#menu_info\').hide();">🎱 Close</button>';
@@ -428,6 +425,7 @@ $(document).ready(function () {
     a.onLoad();
     cr.onLoad();
     cr.setSiteName("Attendance");
-    cr.setSiteUrl("https://attendance-orpin-five.vercel.app");
     cr.setColor("#715cf1");
+    cr.add_btn_top();
+    cr.setSiteUrl("https://attendance-orpin-five.vercel.app");
 });

@@ -44,18 +44,34 @@
 
             <li class="nav-item">
                 <button class="btn btn-sm  btn-dark" onclick="a.add_list()">🐝 Add</button>
-                <button class="btn btn-sm  btn-dark" onclick="a.delete_all()">⛔ Delete all pin</button>
-                <button class="btn btn-sm  btn-dark" onclick="a.delete_all_time()">📛 Delete all Timer</button>                
-                <button class="btn btn-sm  btn-dark" onclick="a.export_data()">🐰 Export</button>
-                <button class="btn btn-sm  btn-dark" onclick="a.import_data()">🥕 Import</button>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-toolbox"></i> Tool
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#"  onclick="a.delete_all();return false;">⛔ Delete all pin</a>
+                <a class="dropdown-item" href="#"   onclick="a.delete_all_time();return false;">📛 Delete all Timer</a>
+              </div>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-database"></i> Backup
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#"  onclick="a.export_data();return false;"><i class="fas fa-file-export"></i> Export</a>
+                <a class="dropdown-item" href="#"   onclick="a.import_data();return false;"><i class="fas fa-file-import"></i> Import</a>
+              </div>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link m-menu" href="#" target="_blank" id="m-pp" onclick="a.show_pp();return false;"><i class="fas fa-carrot"></i> Privacy Policy</a>
+              <a class="nav-link m-menu" href="#"  id="m-pp" onclick="a.show_pp();return false;"><i class="fas fa-carrot"></i> Privacy Policy</a>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link m-menu" href="#" target="_blank" id="m-tos" onclick="a.show_tos();return false;"><i class="fas fa-universal-access"></i> Terms of Service</a>
+              <a class="nav-link m-menu" href="#"  id="m-tos" onclick="a.show_tos();return false;"><i class="fas fa-universal-access"></i> Terms of Service</a>
             </li>
 
             <li class="nav-item dropdown">
@@ -68,7 +84,7 @@
                 <a class="dropdown-item" href="https://music-for-life.en.uptodown.com/windows" target="_blank"><i class="fab fa-windows"></i> Microsoft Store</a>
                 <a class="dropdown-item" href="https://www.amazon.com/Carrot-Attendance/dp/B0D8GPJZYK/" target="_blank"><i class="fab fa-amazon"></i> Amazon</a>
               </div>
-          </li>
+            </li>
 
             <li class="nav-item">
                 <button class="btn btn-sm btn-dark" onclick="a.show_setting();return false;">
@@ -83,7 +99,11 @@
   
       <main role="main" class="container">
         <div class="jumbotron">
-            <div id="pi" style="margin-top: 100px;margin-bottom: 150px;" class="row"></div>
+          <h1 class="display-6 mt-5">Attendance</h1>
+          <p class="lead">The application helps you take attendance and mark the attendance list of students, events or jobs</p>
+          <hr class="my-4">
+          <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+          <div id="pi" class="row"></div>
         </div>
       </main>
 
