@@ -42,24 +42,17 @@ class Attendance {
         if (this.position_btn_add == 'none') css_col_boy = 'col-12 col-md-12';
         if (this.position_btn_add == 'left') html_pi += '<div id="btn_add_pi_auto" class="col-1 col-md-1 col-xs-12 col-sm-12 text-center" onclick="a.add_pi()" oncontextmenu="a.add_pi_pin();return false;" style="cursor: pointer;text-align: center;background-color: rgb(197, 248, 156);" ></div>';
 
-        html_pi += '<div class="' + css_col_boy + ' col-xs-12 col-sm-12">';
-        for (var pi = 1; pi <= this.length_pi; pi++) {
-            var s_class = "";
-            if (localStorage.getItem(this.id_table + "_pi_" + pi) != null) {
-                var index_p = parseInt(localStorage.getItem(this.id_table + "_pi_" + pi));
-                s_class = "sel " + this.list_pin_id[index_p];
-            }
-
-            html_pi += "<div id='box_" + pi + "' class='box " + s_class + "' index='" + pi + "'><span class='name'>" + pi + "</span>";
-            if (this.setting_show_timer == "show") html_pi += "<span id='timer_" + pi + "' class='timer'>None ☢</span>";
-            html_pi += "</div>";
-        }
-        html_pi += '</div>';
+        html_pi += '<div class="' + css_col_boy + ' col-xs-12 col-sm-12" id="all_item"></div>';
+        
 
         if (this.position_btn_add == 'right') html_pi += '<div id="btn_add_pi_auto" class="col-1 col-md-1 col-xs-12 col-sm-12 text-center" onclick="a.add_pi()" oncontextmenu="a.add_pi_pin();return false;" style="cursor: pointer;text-align: center;background-color: rgb(197, 248, 156);" ></div>';
 
         $("#pi").html(html_pi);
 
+        for (var pi = 1; pi <= this.length_pi; pi++) {
+            $("#all_item").append(this.box_item(pi));
+        }
+       
         if (this.setting_show_timer == "show") {
             for (var pi = 1; pi <= this.length_pi; pi++) {
                 const endTime = localStorage.getItem(this.id_table + "_pi_" + pi + "_timer");
@@ -75,6 +68,26 @@ class Attendance {
         });
 
         this.load_info();
+    }
+
+    box_item(pi){
+        var html='';
+        var s_class="";
+        if (localStorage.getItem(this.id_table + "_pi_" + pi) != null) {
+                var index_p = parseInt(localStorage.getItem(this.id_table + "_pi_" + pi));
+                s_class = "sel " + this.list_pin_id[index_p];
+        }
+
+        html+="<div id='box_" + pi + "' class='box " + s_class + "' index='" + pi + "'><span class='name'>" + pi + "</span>";
+        if (this.setting_show_timer == "show") html += "<span id='timer_" + pi + "' class='timer'>None ☢</span>";
+        if(localStorage.getItem(a.id_table+"_link_"+pi)!=null){
+            var link_web=localStorage.getItem(a.id_table+"_link_"+pi);
+            html+='<i class="fas fa-link m-1" style="font-size:8px" title="'+link_web+'"></i>';
+        }
+        if(localStorage.getItem(this.id_table + "_pi_" + pi+"_1") != null) html+='<i class="fas fa-thumbtack fa-rotate-by m-1" style="--fa-rotate-angle: 40deg;font-size:8px"></i>';
+        if(localStorage.getItem(this.id_table + "_pi_" + pi+"_2") != null) html+='<i class="fas fa-thumbtack fa-rotate-by m-1" style="--fa-rotate-angle: 40deg;font-size:8px"></i>';
+        html+="</div>";
+        return $(html);
     }
 
     click_box_obj(index) {
@@ -371,7 +384,17 @@ class Attendance {
                 });
                 a.show_info(this.index_cur);
             }
-        })
+        });
+    }
+
+    edit_link(){
+        var s_val = '';
+        if (localStorage.getItem(this.id_table + "_link_" + this.index_cur) != null) s_val = localStorage.getItem(this.id_table + "_link_" + this.index_cur);
+        cr.input("Edit Link","Enter the link corresponding to the object ("+this.index_cur+")",(link_obj)=>{
+            localStorage.setItem(a.id_table + "_link_" + a.index_cur, link_obj);
+            cr.msg("Link updated successfully!","Update Link","success");
+            a.show_info(a.index_cur);
+        },s_val);
     }
 
     show_info(index) {
@@ -385,7 +408,7 @@ class Attendance {
         }
         html_info += '<button class="btn btn-sm  btn-dark" onclick="a.set_pin_box(' + index + ');">' + this.list_pin[this.index_cur_pin] + ' Set Pin</button>';
         html_info += '<button class="btn btn-sm  btn-dark" onclick="a.del_pin_box(' + index + ');">' + this.list_pin[0] + ' Delete Pin</button>';
-        html_info += '<button class="btn btn-sm  btn-dark" onclick="a.edit_app();"><i class="fas fa-link"></i> Edit Link</button>';
+        html_info += '<button class="btn btn-sm  btn-dark" onclick="a.edit_link();"><i class="fas fa-link"></i> Edit Link</button>';
         html_info += '<button class="btn btn-sm  btn-dark" onclick="a.edit_app();">👔 Edit App</button>';
         html_info += '<button class="btn btn-sm  btn-dark" onclick="a.delete_cur_time()">❌ Delete Curent Timer</button>';
         html_info += '<button class="btn btn-sm  btn-dark" onclick="$(\'#menu_info\').hide();">🎱 Close</button>';

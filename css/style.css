@@ -5,7 +5,8 @@ body{
     font-size: 13px;
 }
 .box{
-    width: 50px;
+    width: 60px;
+    height: 60px;
     float: left;
     background-color: rgb(246, 237, 255);
     margin: 2px;
