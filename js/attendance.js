@@ -1,6 +1,7 @@
 class Attendance {
     list_table = null;
     list_pin = ["🤍", "🔴", "🧡", "💙", "💜", "💚"];
+    list_pin_color=["#f8f9fa","#f70000","#f77200","#075ddf","#681bff","#22a900"];
     list_pin_id = ["none", "check", "alert", "info", "memory", "success"];
     list_total = [200, 350, 400, 450, 500];
 
@@ -169,7 +170,6 @@ class Attendance {
         var count_pin = 0;
         for (var pi = 1; pi <= this.length_pi; pi++) {
             if (localStorage.getItem(this.id_table + "_pi_" + pi) != null) count_ready++;
-            
         }
         $("#info").html("🎯:" + this.index_cur + " 💎:" + count_ready + " 👒:" + (this.length_pi - count_ready) + " 📌:" + count_pin);
     }
@@ -211,7 +211,8 @@ class Attendance {
 
         $("#list_pin").html("");
         $(this.list_pin).each(function (index, p) {
-            $("#list_pin").append('<button id="pin_' + index + '" onmouseout="a.out_pin(' + index + ')" onmouseover="a.hover_pi(' + index + ')" class="item_pin btn btn-sm" onclick="a.set_pin(' + index + ')">' + a.list_pin[index] + '</button>');
+            let item_list_pin=$('<a id="pin_' + index + '" onmouseout="a.out_pin(' + index + ')" class="dropdown-item item_pin" href="#"  onclick="a.set_pin(' + index + ');return false;">'+a.list_pin[index]+' Pin '+(index+1)+'</a>');
+            $("#list_pin").append(item_list_pin);
         });
         this.check_show_sel_pin(this.index_cur_pin);
     }
@@ -234,8 +235,9 @@ class Attendance {
     }
 
     check_show_sel_pin(index) {
-        $(".item_pin").removeClass("sel");
-        $("#pin_" + index).addClass("sel");
+        $(".item_pin").removeClass("active");
+        $("#pin_" + index).addClass("active");
+        
     }
 
     load_table_pi_by_id(id) {

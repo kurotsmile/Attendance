@@ -71,10 +71,6 @@ body{
     box-shadow: 3px 3px 3px #c3c3c3;
 }
 
-.item_pin.sel{
-    background-color: rgb(197, 248, 156) !important;
-}
-
 #info{
     text-decoration: none !important;
 }

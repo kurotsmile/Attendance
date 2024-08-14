@@ -25,9 +25,14 @@
 
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <span class="nav-item text-white mr-2">
-          <span id="list_pin"></span>
           <span id="info"></span>
         </span>
+
+        <div class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown_pin" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-thumbtack"></i> Pin</a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown_pin" id="list_pin"></div>
+        </div>
+
         <button onclick="$('#navbarCollapse').toggle('show')" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -51,8 +56,8 @@
                 <i class="fas fa-toolbox"></i> Tool
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#"  onclick="a.delete_all();return false;">⛔ Delete all pin</a>
-                <a class="dropdown-item" href="#"   onclick="a.delete_all_time();return false;">📛 Delete all Timer</a>
+                <a class="dropdown-item" href="#"  onclick="a.delete_all();return false;"><i class="fa-solid fa-calendar-xmark"></i> Delete all pin</a>
+                <a class="dropdown-item" href="#"  onclick="a.delete_all_time();return false;"><i class="fa-regular fa-calendar-xmark"></i> Delete all Timer</a>
               </div>
             </li>
 
