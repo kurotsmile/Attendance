@@ -1,7 +1,7 @@
 class Attendance {
     list_table = null;
     list_pin = ["🤍", "🔴", "🧡", "💙", "💜", "💚"];
-    list_pin_color=["#f8f9fa","#f70000","#f77200","#075ddf","#681bff","#22a900"];
+    list_pin_color=["#bedfff","#f70000","#f77200","#075ddf","#681bff","#22a900"];
     list_pin_id = ["none", "check", "alert", "info", "memory", "success"];
     list_total = [200, 350, 400, 450, 500];
 
@@ -211,7 +211,7 @@ class Attendance {
 
         $("#list_pin").html("");
         $(this.list_pin).each(function (index, p) {
-            let item_list_pin=$('<a id="pin_' + index + '" onmouseout="a.out_pin(' + index + ')" class="dropdown-item item_pin" href="#"  onclick="a.set_pin(' + index + ');return false;">'+a.list_pin[index]+' Pin '+(index+1)+'</a>');
+            let item_list_pin=$('<a id="pin_' + index + '" onmouseout="a.out_pin(' + index + ')" class="dropdown-item item_pin" href="#"  onclick="a.set_pin(' + index + ');return false;"><i class="fas fa-thumbtack" style="color:'+a.list_pin_color[index]+'"></i> Pin '+(index+1)+'</a>');
             $("#list_pin").append(item_list_pin);
         });
         this.check_show_sel_pin(this.index_cur_pin);
@@ -237,7 +237,7 @@ class Attendance {
     check_show_sel_pin(index) {
         $(".item_pin").removeClass("active");
         $("#pin_" + index).addClass("active");
-        
+        $("#icon_pin_sel").css("color",a.list_pin_color[index]);
     }
 
     load_table_pi_by_id(id) {
@@ -371,21 +371,11 @@ class Attendance {
     edit_app() {
         var s_val = '';
         if (localStorage.getItem(this.id_table + "_app_id_" + this.index_cur) != null) s_val = localStorage.getItem(this.id_table + "_app_id_" + this.index_cur);
-
-        Swal.fire({
-            title: "Enter the app's package id for ("+this.index_cur+")",
-            inputValue: s_val,
-            input: "text",
-            showCancelButton: true,
-            preConfirm: async (app_id) => {
-                localStorage.setItem(this.id_table + "_app_id_" + this.index_cur, app_id);
-                Swal.fire({
-                    title: "Save setting!",
-                    text: "Update installed successfully app id(" + app_id + ")!",
-                    icon: "success"
-                });
-                a.show_info(this.index_cur);
-            }
+        cr.input("Edit App","Enter the app's package id for ("+this.index_cur+")",(app_id)=>{
+            localStorage.setItem(this.id_table + "_app_id_" + this.index_cur, app_id);
+            cr.msg("Update installed successfully app id(" + app_id + ")!", "Save setting!","success");
+            a.show_info(this.index_cur);
+            a.load_pi();
         });
     }
 
@@ -396,24 +386,25 @@ class Attendance {
             localStorage.setItem(a.id_table + "_link_" + a.index_cur, link_obj);
             cr.msg("Link updated successfully!","Update Link","success");
             a.show_info(a.index_cur);
+            a.load_pi();
         },s_val);
     }
 
     show_info(index) {
         var html_info = '';
         html_info += '<li class="nav-item">';
-        html_info += '<button class="btn btn-sm  btn-dark" onclick="a.show_detai_cur();">🥽 ' + this.index_cur + '</button>';
+        html_info += '<button class="btn btn-sm  btn-dark" onclick="a.show_detai_cur();"><i class="fas fa-info-circle"></i> Info(' + this.index_cur + ')</button>';
         if (localStorage.getItem(this.id_table + "_app_id_" + index) != null) {
             var intentUrl = "intent://open#Intent;scheme=" + localStorage.getItem(this.id_table + "_app_id_" + index) + ";package=" + localStorage.getItem(this.id_table + "_app_id_" + index) + ";end";
-            html_info += '<button class="btn btn-sm  btn-dark" onclick="a.open_app_by_index_cur();">🚀 Open App</button>';
-            html_info += '<a href="' + intentUrl + '">🚀 Open App2</a>';
+            html_info += '<button class="btn btn-sm  btn-dark" onclick="a.open_app_by_index_cur();"><i class="fas fa-rocket"></i> Open App</button>';
+            html_info += '<a href="' + intentUrl + '"><i class="fas fa-rocket"></i> Open App2</a>';
         }
-        html_info += '<button class="btn btn-sm  btn-dark" onclick="a.set_pin_box(' + index + ');">' + this.list_pin[this.index_cur_pin] + ' Set Pin</button>';
+        html_info += '<button class="btn btn-sm  btn-dark" onclick="a.set_pin_box(' + index + ');"><i class="fas fa-thumbtack" style="color:'+a.list_pin_color[a.index_cur_pin]+'"></i> Set Pin</button>';
         html_info += '<button class="btn btn-sm  btn-dark" onclick="a.del_pin_box(' + index + ');">' + this.list_pin[0] + ' Delete Pin</button>';
         html_info += '<button class="btn btn-sm  btn-dark" onclick="a.edit_link();"><i class="fas fa-link"></i> Edit Link</button>';
-        html_info += '<button class="btn btn-sm  btn-dark" onclick="a.edit_app();">👔 Edit App</button>';
-        html_info += '<button class="btn btn-sm  btn-dark" onclick="a.delete_cur_time()">❌ Delete Curent Timer</button>';
-        html_info += '<button class="btn btn-sm  btn-dark" onclick="$(\'#menu_info\').hide();">🎱 Close</button>';
+        html_info += '<button class="btn btn-sm  btn-dark" onclick="a.edit_app();"><i class="fas fa-rocket"></i> Edit App</button>';
+        html_info += '<button class="btn btn-sm  btn-dark" onclick="a.delete_cur_time()"><i class="fas fa-calendar-times"></i> Delete Curent Timer</button>';
+        html_info += '<button class="btn btn-sm  btn-dark" onclick="$(\'#menu_info\').hide();"><i class="fas fa-times-circle"></i> Close</button>';
         html_info += '</li>';
         $("#menu_info").show();
         $("#menu_info").html(html_info);
