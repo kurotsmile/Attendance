@@ -50,8 +50,13 @@ class Attendance {
 
         $("#pi").html(html_pi);
 
-        for (var pi = 1; pi <= this.length_pi; pi++) {
-            $("#all_item").append(this.box_item(pi));
+        for (let pi = 1; pi <= this.length_pi; pi++) {
+            var item_box=this.box_item(pi);
+            $(item_box).click(()=>{
+                a.click_box_obj(pi);
+                return false;
+            });
+            $("#all_item").append(item_box);
         }
        
         if (this.setting_show_timer == "show") {
@@ -62,12 +67,6 @@ class Attendance {
                 }
             }
         }
-
-        $(".box").click(function () {
-            var index = $(this).attr("index");
-            a.click_box_obj(index);
-        });
-
         this.load_info();
     }
 
@@ -79,7 +78,12 @@ class Attendance {
                 s_class = "sel " + this.list_pin_id[index_p];
         }
 
-        html+="<div id='box_" + pi + "' class='box " + s_class + "' index='" + pi + "'><span class='name'>" + pi + "</span>";
+        html+="<div id='box_" + pi + "' class='box " + s_class + "' index='" + pi + "'>";
+        let name_object=localStorage.getItem(a.id_table+"_name_"+pi);
+        if(name_object!=null) 
+            html+='<span class="name">'+name_object+'</span>';
+        else
+            html+='<span class="name">'+pi+'</span>';
         if (this.setting_show_timer == "show") html += "<span id='timer_" + pi + "' class='timer'>None ☢</span>";
         if(localStorage.getItem(a.id_table+"_link_"+pi)!=null){
             var link_web=localStorage.getItem(a.id_table+"_link_"+pi);
@@ -389,6 +393,17 @@ class Attendance {
         },html)
     }
 
+    edit_object() {
+        var s_val = '';
+        if (localStorage.getItem(this.id_table + "_app_id_" + this.index_cur) != null) s_val = localStorage.getItem(this.id_table + "_app_id_" + this.index_cur);
+        cr.input("Edit Object","Enter the name of a person, event, or object here. ("+this.index_cur+")",(o_name)=>{
+            localStorage.setItem(this.id_table + "_name_" + this.index_cur, o_name);
+            cr.msg("Update object successfully (" + o_name + ")!", "Save Object!","success");
+            a.show_info(this.index_cur);
+            a.load_pi();
+        });
+    }
+
     edit_app() {
         var s_val = '';
         if (localStorage.getItem(this.id_table + "_app_id_" + this.index_cur) != null) s_val = localStorage.getItem(this.id_table + "_app_id_" + this.index_cur);
@@ -426,9 +441,10 @@ class Attendance {
             html_info += '<button class="btn btn-sm '+s_class+' btn-dark" onclick="a.set_pin_box(' + i + ');return false;"><i class="fas fa-thumbtack" style="color:'+a.list_pin_color[i]+'"></i></button>';
         }
 
-        html_info += '<button class="btn btn-sm  btn-dark" onclick="a.del_pin_box(' + index + ');">' + this.list_pin[0] + ' Delete Pin</button>';
+        html_info += '<button class="btn btn-sm  btn-dark" onclick="a.del_pin_box('+index+');"><i class="fas fa-backspace"></i> Delete Pin</button>';
         html_info += '<button class="btn btn-sm  btn-dark" onclick="a.edit_link();"><i class="fas fa-link"></i> Edit Link</button>';
         html_info += '<button class="btn btn-sm  btn-dark" onclick="a.edit_app();"><i class="fas fa-rocket"></i> Edit App</button>';
+        html_info += '<button class="btn btn-sm  btn-dark" onclick="a.edit_object();"><i class="fas fa-user-edit"></i> Edit Object</button>';
         html_info += '<button class="btn btn-sm  btn-dark" onclick="a.delete_cur_time()"><i class="fas fa-calendar-times"></i> Delete Curent Timer</button>';
         html_info += '<button class="btn btn-sm  btn-dark" onclick="$(\'#menu_info\').hide();"><i class="fas fa-times-circle"></i> Close</button>';
         html_info += '</li>';
