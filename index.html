@@ -40,15 +40,14 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
 
-            <li class="nav-item">
-                <select id="list_table" class="form-control form-control-sm bg-dark text-white border-0"></select>
-            </li>
-            <li class="nav-item">
-                <select id="list_total" class="form-control form-control-sm bg-dark text-white border-0"></select>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_table" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-table"></i> Table (<span id="id_table">Name table</span>)</a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown_table" id="list_table" ></div>
             </li>
 
-            <li class="nav-item">
-                <button class="btn btn-sm  btn-dark" onclick="a.add_list()"><i class="fas fa-plus-square"></i> Add</button>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_amount" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-mountain"></i> Amount (<span id="length_item_table">Name table</span>)</a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown_amount" id="list_total" ></div>
             </li>
 
             <li class="nav-item dropdown">

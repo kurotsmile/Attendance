@@ -4,6 +4,9 @@ body{
     font-family:"arial";
     font-size: 13px;
 }
+.fas{
+    line-height: unset;
+}
 .box{
     width: 60px;
     height: 60px;

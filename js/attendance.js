@@ -5,7 +5,7 @@ class Attendance {
     list_pin_id = ["none", "check", "alert", "info", "memory", "success"];
     list_total = [200, 350, 400, 450, 500];
 
-    id_table = "pi_work";
+    id_table = "work";
     index_cur = 0;
     index_cur_pin = 1;
     length_pi = 500;
@@ -18,6 +18,7 @@ class Attendance {
         $("#menu_info").hide();
         if (localStorage.getItem("pos_btn_add") != null) this.position_btn_add = localStorage.getItem("pos_btn_add");
         if (localStorage.getItem("setting_show_timer") != null) this.setting_show_timer = localStorage.getItem("setting_show_timer");
+        if (localStorage.getItem("id_table") != null) this.id_table = localStorage.getItem("id_table");
         a.load_list();
         a.load_pi();
     }
@@ -30,6 +31,8 @@ class Attendance {
 
     load_pi() {
         $("#pi").html("");
+        $("#id_table").html(a.id_table);
+        $("#length_item_table").html(a.length_pi);
         if (localStorage.getItem(this.id_table + "_lenth_app") != null)
             this.length_pi = parseInt(localStorage.getItem(this.id_table + "_lenth_app"));
         else
@@ -42,10 +45,7 @@ class Attendance {
 
         if (this.position_btn_add == 'none') css_col_boy = 'col-12 col-md-12';
         if (this.position_btn_add == 'left') html_pi += '<div id="btn_add_pi_auto" class="col-1 col-md-1 col-xs-12 col-sm-12 text-center" onclick="a.add_pi()" oncontextmenu="a.add_pi_pin();return false;" style="cursor: pointer;text-align: center;background-color: rgb(197, 248, 156);" ></div>';
-
         html_pi += '<div class="' + css_col_boy + ' col-xs-12 col-sm-12" id="all_item"></div>';
-        
-
         if (this.position_btn_add == 'right') html_pi += '<div id="btn_add_pi_auto" class="col-1 col-md-1 col-xs-12 col-sm-12 text-center" onclick="a.add_pi()" oncontextmenu="a.add_pi_pin();return false;" style="cursor: pointer;text-align: center;background-color: rgb(197, 248, 156);" ></div>';
 
         $("#pi").html(html_pi);
@@ -185,29 +185,25 @@ class Attendance {
 
     load_list() {
         if (localStorage.getItem("list_table") != null) this.list_table = JSON.parse(localStorage.getItem("list_table"));
-        else this.list_table = ["pi_work"];
+        else this.list_table = ["work"];
 
         $("#list_table").empty();
         $(this.list_table).each(function (index, l) {
-            $("#list_table").append(new Option("📟 " + l, l));
+            let item_list_table=$('<a class="dropdown-item item_table" href="#"  onclick="a.load_table_pi_by_id(\'' + l + '\');return false;"><i class="fas fa-table"></i> '+l+'</a>');
+            $("#list_table").append(item_list_table);
         });
-
-        $("#list_table").change(function () {
-            var val = $(this).val();
-            a.load_table_pi_by_id(val);
-        });
+        let item_add_table=$('<a class="dropdown-item" href="#"><i class="fas fa-plus-square"></i> Add Table</a>');
+        $(item_add_table).click(function(){ a.add_list();});
+        $("#list_table").append(item_add_table);
 
         $("#list_total").empty();
         $(this.list_total).each(function (index, c) {
-            $("#list_total").append(new Option("🏀 " + c, c));
+            let item_list_amount=$('<a class="dropdown-item item_table" href="#"  onclick="a.change_amount(\''+c+'\');return false;"><i class="fas fa-border-all"></i> '+c+'</a>');
+            $("#list_total").append(item_list_amount);
         });
-
-        $("#list_total").change(function () {
-            var val = $(this).val();
-            localStorage.setItem(a.id_table + "_lenth_app", val);
-            a.length_pi = parseInt(val);
-            a.load_pi();
-        });
+        let item_add_amount=$('<a class="dropdown-item" href="#"><i class="fas fa-plus-square"></i> Add Amount</a>');
+        $(item_add_amount).click(a.show_change_amount);
+        $("#list_total").append(item_add_amount);
 
         $("#list_pin").html("");
         $(this.list_pin).each(function (index, p) {
@@ -215,6 +211,18 @@ class Attendance {
             $("#list_pin").append(item_list_pin);
         });
         this.check_show_sel_pin(this.index_cur_pin);
+    }
+
+    show_change_amount(){
+        cr.input("Number of elements","Enter the number of elements you want to contain in the table",(val)=>{
+            a.change_amount(val);
+        });
+    }
+
+    change_amount(val){
+        localStorage.setItem(a.id_table + "_lenth_app", val);
+        a.length_pi = parseInt(val);
+        a.load_pi();
     }
 
     hover_pi(index) {
@@ -242,6 +250,7 @@ class Attendance {
 
     load_table_pi_by_id(id) {
         this.id_table = id;
+        localStorage.setItem("id_table",id);
         document.title = id;
         this.load_pi();
     }
