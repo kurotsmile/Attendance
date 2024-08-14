@@ -11,7 +11,7 @@ class Attendance {
     length_pi = 500;
     position_btn_add = 'right';
     setting_show_timer = 'show';
-
+    fnc_click_box = 'timer_pin';
     menu_cur='';
 
     onLoad(){
@@ -85,8 +85,9 @@ class Attendance {
             var link_web=localStorage.getItem(a.id_table+"_link_"+pi);
             html+='<i class="fas fa-link m-1" style="font-size:8px" title="'+link_web+'"></i>';
         }
-        if(localStorage.getItem(this.id_table + "_pi_" + pi+"_1") != null) html+='<i class="fas fa-thumbtack fa-rotate-by m-1" style="--fa-rotate-angle: 40deg;font-size:8px"></i>';
-        if(localStorage.getItem(this.id_table + "_pi_" + pi+"_2") != null) html+='<i class="fas fa-thumbtack fa-rotate-by m-1" style="--fa-rotate-angle: 40deg;font-size:8px"></i>';
+        for(let i=0;i<a.list_pin.length;i++){
+            if(localStorage.getItem(a.id_table + "_pi_" + pi+"_"+i) != null) html+='<i class="fas fa-thumbtack fa-rotate-by m-1" style="--fa-rotate-angle: 40deg;font-size:8px"></i>';
+        }
         html+="</div>";
         return $(html);
     }
@@ -122,10 +123,10 @@ class Attendance {
         this.load_info();
     }
 
-    set_pin_box(index) {
-        $("#box_" + index).addClass("sel " + this.list_pin_id[this.index_cur_pin]);
-        localStorage.setItem(this.id_table + "_pi_" + index, this.index_cur_pin);
-        this.load_info();
+    set_pin_box(index_pin) {
+        $("#box_" + a.index_cur).addClass("sel " + a.list_pin_id[index_pin]);
+        localStorage.setItem(a.id_table + "_pi_" + a.index_cur+"_"+index_pin,1);
+        a.load_info();
     }
 
     delete_all() {
@@ -320,12 +321,22 @@ class Attendance {
                 $(countdownDiv).html(`${hours}:${minutes}:${seconds}`);
             }
         }
-
         interval = setInterval(updateCountdown, 1000);
     }
 
     show_setting() {
         var html = '';
+
+        html+='<div class="form-group">';
+            html+='<label for="setting_show_timer"><i class="fas fa-mouse"></i> Set Click method</label>';
+            html += '<select id="fnc_click_box" class="form-control">';
+            html += '<option value="timer_pin" ' + (this.fnc_click_box === 'timer_pin' ? ' selected' : '') + '>Set pin and run timer</option>';
+            html += '<option value="pin" ' + (this.fnc_click_box === 'pin' ? ' selected' : '') + '>Pin only</option>';
+            html += '<option value="timer" ' + (this.fnc_click_box === 'timer' ? ' selected' : '') + '>Run countdown timer</option>';
+            html += '<option value="none" ' + (this.fnc_click_box === 'none' ? ' selected' : '') + '>Do nothing</option>';
+            html += '</select>';
+            html+='<small class="form-text text-muted">Function when clicking on an item in the table</small>';
+        html+='</div>';
 
         html+='<div class="form-group">';
             html+='<label for="setting_show_timer"><i class="fas fa-calendar-plus"></i> Button to mark the list of objects</label>';
@@ -354,6 +365,7 @@ class Attendance {
 
         cr.show_setting((setting)=>{
             a.position_btn_add = $("#pos_btn_add").val();
+            a.fnc_click_box=$("#fnc_click_box").val();
             a.setting_show_timer = $("#setting_show_timer").val();
             a.length_pi = parseInt($("#length_pi").val());
 
@@ -408,7 +420,12 @@ class Attendance {
             html_info += '<button class="btn btn-sm  btn-dark" onclick="a.open_app_by_index_cur();"><i class="fas fa-rocket"></i> Open App</button>';
             html_info += '<a href="' + intentUrl + '"><i class="fas fa-rocket"></i> Open App2</a>';
         }
-        html_info += '<button class="btn btn-sm  btn-dark" onclick="a.set_pin_box(' + index + ');"><i class="fas fa-thumbtack" style="color:'+a.list_pin_color[a.index_cur_pin]+'"></i> Set Pin</button>';
+        for(let i=0;i<a.list_pin.length;i++){
+            let s_class="";
+            if(localStorage.getItem(a.id_table + "_pi_" + index+"_"+i) != null) s_class="active";
+            html_info += '<button class="btn btn-sm '+s_class+' btn-dark" onclick="a.set_pin_box(' + i + ');return false;"><i class="fas fa-thumbtack" style="color:'+a.list_pin_color[i]+'"></i></button>';
+        }
+
         html_info += '<button class="btn btn-sm  btn-dark" onclick="a.del_pin_box(' + index + ');">' + this.list_pin[0] + ' Delete Pin</button>';
         html_info += '<button class="btn btn-sm  btn-dark" onclick="a.edit_link();"><i class="fas fa-link"></i> Edit Link</button>';
         html_info += '<button class="btn btn-sm  btn-dark" onclick="a.edit_app();"><i class="fas fa-rocket"></i> Edit App</button>';
