@@ -73,17 +73,16 @@ class Attendance {
     box_item(pi){
         var html='';
         var s_class="";
+        let s_tip='';
+        let name_object=localStorage.getItem(a.id_table+"_name_"+pi);
+        if(name_object!=null) s_tip+='title="'+name_object+'"';
         if (localStorage.getItem(this.id_table + "_pi_" + pi) != null) {
                 var index_p = parseInt(localStorage.getItem(this.id_table + "_pi_" + pi));
                 s_class = "sel " + this.list_pin_id[index_p];
         }
 
-        html+="<div id='box_" + pi + "' class='box " + s_class + "' index='" + pi + "'>";
-        let name_object=localStorage.getItem(a.id_table+"_name_"+pi);
-        if(name_object!=null) 
-            html+='<span class="name">'+name_object+'</span>';
-        else
-            html+='<span class="name">'+pi+'</span>';
+        html+="<div id='box_" + pi + "' "+s_tip+" class='box " + s_class + "' index='" + pi + "'>";
+        html+='<span class="name">'+pi+'</span>';
         if (this.setting_show_timer == "show") html += "<span id='timer_" + pi + "' class='timer'>None ☢</span>";
         if(localStorage.getItem(a.id_table+"_link_"+pi)!=null){
             var link_web=localStorage.getItem(a.id_table+"_link_"+pi);
